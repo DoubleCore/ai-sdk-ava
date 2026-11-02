@@ -1,0 +1,64 @@
+{
+  "name": "ava-ai-sdk-tools",
+  "version": "0.1.0",
+  "description": "AI SDK tools for AVA: load data, run SQL, analyze in natural language, and build charts from an AI SDK agent.",
+  "keywords": [
+    "ai-sdk",
+    "vercel-ai",
+    "antv",
+    "ava",
+    "visual-analytics",
+    "data-analysis",
+    "charts"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "DoubleCore",
+    "url": "https://github.com/DoubleCore"
+  },
+  "homepage": "https://github.com/DoubleCore/ava-ai-sdk-tools",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DoubleCore/ava-ai-sdk-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DoubleCore/ava-ai-sdk-tools/issues"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "peerDependencies": {
+    "@antv/ava": "^4.0.0-beta.4 || ^4.0.0",
+    "ai": "^7.0.0",
+    "zod": "^3.25.0 || ^4.1.0"
+  },
+  "devDependencies": {
+    "@antv/ava": "^4.0.0-beta.4",
+    "@types/node": "^22.20.4",
+    "ai": "^7.0.159",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11",
+    "zod": "^3.25.76"
+  },
+  "type": "module"
+}
