@@ -1,4 +1,4 @@
-# ava-ai-sdk-tools
+# ai-sdk-ava
 
 [AVA](https://github.com/antvis/AVA) tools for the [Vercel AI SDK](https://sdk.vercel.ai). Give any AI SDK agent the ability to load a dataset, inspect its schema, write SQL, ask AVA a natural-language question, and turn verified rows into a chart.
 
@@ -7,7 +7,7 @@ AVA owns data access and rendering; your model owns the reasoning. No AVA CLI, n
 ## Install
 
 ```bash
-npm install ava-ai-sdk-tools @antv/ava@beta ai zod
+npm install ai-sdk-ava @antv/ava@beta ai zod
 ```
 
 `@antv/ava` v4 is a peer dependency and is still published under the `beta` tag. Requires Node.js ≥ 22.13.
@@ -17,7 +17,7 @@ npm install ava-ai-sdk-tools @antv/ava@beta ai zod
 ```ts
 import { generateText, stepCountIs } from 'ai';
 import { openai } from '@ai-sdk/openai';
-import { avaTools } from 'ava-ai-sdk-tools';
+import { avaTools } from 'ai-sdk-ava';
 
 const { tools, dispose } = avaTools({
   // Optional: omit to read OPENAI_API_KEY / OPENAI_MODEL / OPENAI_BASE_URL
@@ -58,7 +58,7 @@ The agent decides the order. A typical run is `ava_load_data → ava_schema → 
 `ava_visualize` returns a chart spec, not HTML. Turn it into a standalone page with `renderChart` — no model call is involved:
 
 ```ts
-import { renderChart } from 'ava-ai-sdk-tools';
+import { renderChart } from 'ai-sdk-ava';
 
 const { path } = await renderChart(chartSpec, { outputPath: 'chart.html' });
 ```

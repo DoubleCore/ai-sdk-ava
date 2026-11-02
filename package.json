@@ -1,12 +1,13 @@
 {
-  "name": "ava-ai-sdk-tools",
+  "name": "ai-sdk-ava",
   "version": "0.1.0",
-  "description": "AI SDK tools for AVA: load data, run SQL, analyze in natural language, and build charts from an AI SDK agent.",
+  "description": "Vercel AI SDK tools for AVA: load data, run SQL, analyze in natural language, and build charts from an AI SDK agent.",
   "keywords": [
     "ai-sdk",
     "vercel-ai",
     "antv",
     "ava",
+    "tools",
     "visual-analytics",
     "data-analysis",
     "charts"
@@ -16,13 +17,13 @@
     "name": "DoubleCore",
     "url": "https://github.com/DoubleCore"
   },
-  "homepage": "https://github.com/DoubleCore/ava-ai-sdk-tools",
+  "homepage": "https://github.com/DoubleCore/ai-sdk-ava",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DoubleCore/ava-ai-sdk-tools.git"
+    "url": "git+https://github.com/DoubleCore/ai-sdk-ava.git"
   },
   "bugs": {
-    "url": "https://github.com/DoubleCore/ava-ai-sdk-tools/issues"
+    "url": "https://github.com/DoubleCore/ai-sdk-ava/issues"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
