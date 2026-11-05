@@ -1,0 +1,41 @@
+name: Publish to npm
+
+# Release-only: publish runs on version tags (v*) or an explicit manual run.
+# It never runs on branch pushes or PRs.
+on:
+  push:
+    tags:
+      - 'v[0-9]*.[0-9]*.[0-9]*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.13.0'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+      # OIDC-based npm provenance (trusted publishing). No NPM_TOKEN required:
+      # the npm registry verifies the GitHub Actions OIDC token against the
+      # trusted publisher configured on npmjs.com for this package.
+      - name: Publish to npm
+        run: npm publish --provenance --access public

@@ -87,6 +87,28 @@ npm run build
 npm test        # vitest: tool wiring, schema, SQL, truncation, model-backed analyze/translate, chart render
 ```
 
+## Publishing (npm trusted publishing / OIDC)
+
+Releases are published through GitHub Actions with npm provenance — no `NPM_TOKEN` secret is stored. The workflow (`.github/workflows/publish.yml`) only runs on a version tag (`v*.*.*`) or a manual `workflow_dispatch` run, gives itself `contents: read` + `id-token: write`, then runs `npm ci` → typecheck → build → test → `npm publish --provenance --access public`.
+
+Before the first publish, configure npm's trusted publisher once on npmjs.com (this package is not yet on the registry, so the binding must be set up when the package name is claimed, or pre-configured if it already exists):
+
+1. After the package is created on npm (or via the `npm publish --provenance` first run from this workflow, which prompts npm to verify it), open the package settings → **Publishing access**.
+2. Add a trusted publisher entry with:
+   - **Repository owner / name:** `DoubleCore/ai-sdk-ava`
+   - **Workflow filename:** `publish.yml`
+   - **Environment:** (leave empty — the workflow defines no GitHub environment)
+3. Effective publisher permissions are also driven by npm granular access, so make sure your npm account owns the `ai-sdk-ava` package name or scope.
+
+To cut a release: bump the version in `package.json`, push a tag:
+
+```bash
+npm version patch   # or minor / major
+git push --follow-tags
+```
+
+The workflow then builds and tests before publishing with a public provenance statement. Package names, scopes and visibility are checked here: `ai-sdk-ava` is a public, unscoped package, hence `--access public`.
+
 ## License
 
 MIT
