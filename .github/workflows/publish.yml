@@ -55,6 +55,9 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: Verify package contents
+        run: npm pack --dry-run
+
       # OIDC-based npm provenance (trusted publishing). No NPM_TOKEN required:
       # the npm registry verifies the GitHub Actions OIDC token against the
       # trusted publisher configured on npmjs.com for this package.
