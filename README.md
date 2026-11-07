@@ -7,10 +7,10 @@ AVA owns data access and rendering; your model owns the reasoning. No AVA CLI, n
 ## Install
 
 ```bash
-npm install ai-sdk-ava @antv/ava@beta ai zod
+npm install ai-sdk-ava @antv/ava ai zod
 ```
 
-`@antv/ava` v4 is a peer dependency and is still published under the `beta` tag. Requires Node.js ≥ 22.13.
+`@antv/ava` v4 and Zod ≥ 4.6.7 are peer dependencies. Requires Node.js ≥ 22.13.
 
 ## Usage
 
@@ -89,21 +89,23 @@ npm test        # vitest: tool wiring, schema, SQL, truncation, model-backed ana
 
 ## Publishing (npm trusted publishing / OIDC)
 
-Releases are published through GitHub Actions with npm provenance — no `NPM_TOKEN` secret is stored. The workflow (`.github/workflows/publish.yml`) only runs on a version tag (`v*.*.*`) or a manual `workflow_dispatch` run, gives itself `contents: read` + `id-token: write`, then runs `npm ci` → typecheck → build → test → `npm publish --provenance --access public`.
+Releases are published through GitHub Actions with npm provenance — no `NPM_TOKEN` secret is stored. The workflow (`.github/workflows/publish.yml`) runs on a version tag (`v*.*.*`) or a manual `workflow_dispatch` run from `main`, gives itself `contents: read` + `id-token: write`, uses Node 24 and npm 11.21.2, then runs `npm ci` → typecheck → build → test → `npm publish --provenance --access public`. Tag pushes must be `v` followed by the exact `package.json` version (for example, `v0.1.0`); manual runs publish the version in `main`.
 
-Before the first publish, configure npm's trusted publisher once on npmjs.com (this package is not yet on the registry, so the binding must be set up when the package name is claimed, or pre-configured if it already exists):
+Before the first OIDC release, an npm maintainer must configure the trusted publisher on npmjs.com. npm only exposes these settings for an existing package; an unclaimed package cannot be bootstrapped by this OIDC workflow alone.
 
-1. After the package is created on npm (or via the `npm publish --provenance` first run from this workflow, which prompts npm to verify it), open the package settings → **Publishing access**.
-2. Add a trusted publisher entry with:
-   - **Repository owner / name:** `DoubleCore/ai-sdk-ava`
-   - **Workflow filename:** `publish.yml`
-   - **Environment:** (leave empty — the workflow defines no GitHub environment)
-3. Effective publisher permissions are also driven by npm granular access, so make sure your npm account owns the `ai-sdk-ava` package name or scope.
+1. Open the `ai-sdk-ava` package **Settings → Trusted Publisher** (also reachable from **Publishing access**) and select **GitHub Actions**.
+2. Add a trusted publisher entry with these case-sensitive values:
+   - **Organization or user:** `DoubleCore`
+   - **Repository:** `ai-sdk-ava`
+   - **Workflow filename:** `publish.yml` (only the filename, not the full path)
+   - **Environment name:** (leave empty — the workflow defines no GitHub environment)
+   - **Allowed actions:** enable **`npm publish`**, because this workflow publishes directly rather than using `npm stage publish`.
+3. Complete the first successful publish within two days of creating the trust configuration, or npm will expire it. After the first OIDC release, consider **Require two-factor authentication and disallow tokens** under **Publishing access**.
 
-To cut a release: bump the version in `package.json`, push a tag:
+To cut a release after that one-time binding is complete: bump the version in `package.json`, push a matching tag:
 
 ```bash
-npm version patch   # or minor / major
+npm version patch   # or minor / major; skip if the current version is not published yet
 git push --follow-tags
 ```
 
