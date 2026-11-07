@@ -7,7 +7,7 @@ AVA owns data access and rendering; your model owns the reasoning. No AVA CLI, n
 ## Install
 
 ```bash
-npm install ai-sdk-ava @antv/ava ai zod
+npm install ai-sdk-ava @antv/ava ai @ai-sdk/openai zod
 ```
 
 `@antv/ava` v4 and Zod ≥ 4.6.7 are peer dependencies. Requires Node.js ≥ 22.13.
