@@ -1,6 +1,6 @@
 {
   "name": "ai-sdk-ava",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Vercel AI SDK tools for AVA: load data, run SQL, analyze in natural language, and build charts from an AI SDK agent.",
   "keywords": [
     "ai-sdk",
